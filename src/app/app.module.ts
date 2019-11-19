@@ -9,6 +9,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { StatusComponent } from './components/status/status.component';
 import { StudentComponent } from './components/student/student.component';
 
+import { StorageService} from './services/storage.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,9 @@ import { StudentComponent } from './components/student/student.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    StorageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
