@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { BodyComponent } from './components/body/body.component';
 import { StatusComponent } from './components/status/status.component';
 import { StudentComponent } from './components/student/student.component';
@@ -13,7 +13,7 @@ import { StudentComponent } from './components/student/student.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    NavbarComponent,
     BodyComponent,
     StatusComponent,
     StudentComponent
