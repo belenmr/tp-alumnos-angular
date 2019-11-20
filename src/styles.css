@@ -6,6 +6,14 @@ body {
     background: #7F7FD5; 
     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+}
 
-
+.app {
+    width: 100%;
+    margin-top: 3em;
+    padding-top: 1em;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
 }
