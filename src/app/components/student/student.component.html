@@ -1,9 +1,10 @@
 <div class="container">
+    <div class="row justify-content-md-center">
+        <h1 class="text-center">Alumnos</h1>
+    </div>
     <div class="row"> 
         <div class="col-sm-8">
-            <h1 class="text-center">
-                Alumnos
-            </h1>
+            
         </div>
         <div class="col-sm-4">
             <div class="alert alert-success alert-dismissable" *ngIf="msg">
@@ -14,44 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Legajo</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>DNI</th>
-                            <th>Primer Examen</th>
-                            <th>Segundo examen</th>
-                            <th>Promedio</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let student of studentsList; let i = index">
-                            <td>{{student.docket}}</td>
-                            <td>{{student.name}}</td>
-                            <td>{{student.surname}}</td>
-                            <td>{{student.dni}}</td>
-                            <td>{{student.firstExam}}</td>
-                            <td>{{student.secondExam}}</td>
-                            <td>{{student.average}}</td>
-                            <td>{{student.status.name}}</td>
-                            <td>
-                                <a (click)="openEditStudent(i)" class="btn btn-success">
-                                Editar
-                                </a>
-                                <a (click)="deleteStudent(i)" class="btn btn-danger">
-                                Eliminar
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-        </div>
-
+    <div class="row justify-content-md-center">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -93,6 +57,44 @@
                     <button *ngIf="existStudent(selectedStudent) == true" (click)="cancelEditStudent()" class="btn btn-warning">Cancelar</button>
                 </div>
             </div>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col mt-4">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Legajo</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>DNI</th>
+                        <th>Primer Examen</th>
+                        <th>Segundo examen</th>
+                        <th>Promedio</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let student of studentsList; let i = index">
+                        <td>{{student.docket}}</td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.surname}}</td>
+                        <td>{{student.dni}}</td>
+                        <td>{{student.firstExam}}</td>
+                        <td>{{student.secondExam}}</td>
+                        <td>{{student.average}}</td>
+                        <td>{{student.status.name}}</td>
+                        <td>
+                            <a (click)="openEditStudent(i)" class="btn btn-success">
+                            Editar
+                            </a>
+                            <a (click)="deleteStudent(i)" class="btn btn-danger">
+                            Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
