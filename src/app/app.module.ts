@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { StatusComponent } from './components/status/status.component';
 import { StudentComponent } from './components/student/student.component';
 
-import { StorageService} from './services/storage.service'
+import { LocalStorageService} from './services/local-storage.service'
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { StorageService} from './services/storage.service'
     FormsModule
   ],
   providers: [
-    StorageService
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })
