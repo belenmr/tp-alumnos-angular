@@ -4,35 +4,49 @@ import { Status } from '../models/status.model';
 import { Student } from '../models/student.model';
 
 const statusStorageName = "statusStorage";
-const studentStorageName = "studentStorage";
+const studentStorageName = "studentsStorage";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class LocalStorageService {
 
-	private statusList: Status[];
-	private studentsList: Student[];
+	private statusList: Status[] = new Array<Status>();
+	private exampleStatus: Status = {code: "R", name: "Regular"};
+	private studentsList: Student[] = new Array<Student>();
+	private exampleStudent: Student = {
+		docket: 12,
+    	name: "Alumno",
+    	surname: "Ejemplo",
+    	dni: 123,
+    	status: {code: "R", name: "Regular"},
+    	firstExam: 4,
+    	secondExam: 4,
+    	average: 4
+	};
+
 	constructor() {
-		//this.statusList = JSON.parse(localStorage.getItem(statusStorageName));
+		
 		if (localStorage.getItem(statusStorageName)==null) {
+			this.statusList.push(this.exampleStatus);
 			localStorage.setItem(statusStorageName, JSON.stringify(this.statusList));
 		} else {
 			this.statusList = JSON.parse(localStorage.getItem(statusStorageName));
 		}
 
-		//this.studentsList = JSON.parse(localStorage.getItem(studentStorageName));
 		if (localStorage.getItem(studentStorageName)==null) {
+			this.studentsList.push(this.exampleStudent);
 			localStorage.setItem(studentStorageName, JSON.stringify(this.studentsList));
 		} else {
-			this.statusList = JSON.parse(localStorage.getItem(studentStorageName));
+			this.studentsList = JSON.parse(localStorage.getItem(studentStorageName));
 		}
 	 }
 
 	/******** STATUS STORAGE ********/ 
 	/* get list */
-	getStatusList(): Status[]{		
-		return [...this.statusList];
+	getStatusList(): Status[]{	
+		this.statusList = JSON.parse(localStorage.getItem(statusStorageName));	
+		return this.statusList;
 	}
 
 	/* add a new status */
@@ -60,7 +74,7 @@ export class LocalStorageService {
 	/******** STUDENT STORAGE ********/ 
 
 	/* get list */
-	getStudentList(): Student[]{
+	getStudentsList(): Student[]{
 		return [...this.studentsList];
 	}
 
@@ -71,7 +85,7 @@ export class LocalStorageService {
 	}
 
 	/* set list */
-	setStudentList(newStudentList: Student[]){
+	setStudentsList(newStudentList: Student[]){
 		localStorage.setItem(studentStorageName,JSON.stringify(newStudentList));
 	}
 
@@ -80,7 +94,7 @@ export class LocalStorageService {
 		this.studentsList.forEach(element => {
 			if (student.docket == element.docket && student.dni == element.dni) {
 				this.studentsList = this.studentsList.filter(x => x.docket != student.docket);
-				this.setStudentList(this.studentsList);
+				this.setStudentsList(this.studentsList);
 			}
 		});
 	}
