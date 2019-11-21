@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Student } from 'src/app/models/student.model';
+import { Status } from 'src/app/models/status.model';
+import { LocalStorageService } from '../../services/local-storage.service'
 
 @Component({
   	selector: 'app-student',
@@ -8,8 +10,16 @@ import { Student } from 'src/app/models/student.model';
 })
 export class StudentComponent implements OnInit {
 
-  	constructor() { }
+	private statusList: Status[];
+	private storage: LocalStorageService = new LocalStorageService();
+	private studentsList: Student[];
+	
 
+  	constructor() {
+		  this.statusList = this.storage.getStatusList();
+		  this.studentsList = this.storage.getStudentsList();
+	   }
+		
   	ngOnInit() {
   	}
 
@@ -26,21 +36,12 @@ export class StudentComponent implements OnInit {
 		9, 9.5,
 		10
 	];
-  	studentList: Student[] = [
-		  {docket: 1,
-			name:"HOla",
-			surname: "Mundo",
-			dni: 123,
-			firstExam:0,
-			secondExam:0,
-			average: 0,
-			status: {code: "R", name:"Regular"}}
-	  ];
+  	
 
   	selectedStudent: Student = new Student();
 
   	openEditStudent(i:number){
-    	this.selectedStudent = this.studentList[i];
+    	this.selectedStudent = this.studentsList[i];
   	}
 
 	existStudent(student: Student): boolean{
@@ -56,7 +57,7 @@ export class StudentComponent implements OnInit {
   	existDocket(student: Student):boolean{
 		let exist: boolean = false;
 
-		this.studentList.forEach(element => {
+		this.studentsList.forEach(element => {
 			if (element.docket == student.docket) {
 				exist = true;
 			}
@@ -68,7 +69,7 @@ export class StudentComponent implements OnInit {
 	existDNI(student: Student):boolean{
 		let exist: boolean = false;
 
-		this.studentList.forEach(element => {
+		this.studentsList.forEach(element => {
 			if (element.dni == student.dni) {
 				exist = true;
 			}
@@ -101,7 +102,7 @@ export class StudentComponent implements OnInit {
 					alert("Nombre de estado ya en uso. Intente otro nombre");
 				} else {
 					this.selectedStudent.average = this.calculateAverage(this.selectedStudent);
-					this.studentList.push(this.selectedStudent);
+					this.studentsList.push(this.selectedStudent);
 				}
 			}
 		}
@@ -111,8 +112,8 @@ export class StudentComponent implements OnInit {
 
 	deleteStudent(i:number){
 		if (confirm("¿Quiere eliminarlo?")) {
-			this.selectedStudent = this.studentList[i];
-			this.studentList = this.studentList.filter(x => x!= this.selectedStudent);
+			this.selectedStudent = this.studentsList[i];
+			this.studentsList = this.studentsList.filter(x => x!= this.selectedStudent);
 			this.selectedStudent = new Student();
 		}
 	}

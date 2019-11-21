@@ -47,9 +47,7 @@
                     <div class="form-group">
                         <label for="estado">Estado</label>
                         <select name="estado" [(ngModel)]="selectedStudent.status">
-                            <option value="value1">Value 1</option> 
-                            <option value="value2">Value 2</option>
-                            <option value="value3">Value 3</option>
+                            <option *ngFor="let status of statusList; let i = index" value="{status}">{{status.name}}</option>
                         </select>                      
                     </div>
                     <button (click)="addOrEditStudent()" class="btn btn-primary">Guardar</button>
@@ -72,9 +70,10 @@
                         <th>Segundo examen</th>
                         <th>Promedio</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="background-color: antiquewhite;">
                     <tr *ngFor="let student of studentsList; let i = index">
                         <td>{{student.docket}}</td>
                         <td>{{student.name}}</td>
