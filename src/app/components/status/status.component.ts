@@ -1,5 +1,6 @@
 import { Status } from '../../models/status.model' 
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   	selector: 'app-status',
@@ -8,11 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatusComponent implements OnInit {
 
-  	statusList: Status[] = [
-		  {code: "R", name: "Regular"}
-	  ];
+	statusList: Status[] = new Array<Status>();
+	selectedStatus: Status = new Status();
+	private storage:LocalStorageService = new LocalStorageService();
 
-  	selectedStatus: Status = new Status();
+	
+
+	constructor(){
+		this.statusList = this.storage.getStatusList();
+	}	
+
 
   	addOrEditStatus(){
 		if (!this.existStatus(this.selectedStatus)) {
@@ -23,6 +29,7 @@ export class StatusComponent implements OnInit {
 					alert("Nombre de estado ya en uso. Intente otro nombre");
 				} else {
 					this.statusList.push(this.selectedStatus);
+					this.storage.setStatusList(this.statusList);
 				}
 			}
 		}
@@ -35,8 +42,10 @@ export class StatusComponent implements OnInit {
 	}
 	  
 	deleteStatus(){
+		let statusToDelete = this.selectedStatus;
 		if (confirm("¿Quiere eliminarlo?")) {
-			this.statusList = this.statusList.filter(x => x!= this.selectedStatus);
+			this.storage.deleteStatus(statusToDelete);
+			this.statusList = this.storage.getStatusList();
 			this.selectedStatus = new Status();
 		}
 	}
