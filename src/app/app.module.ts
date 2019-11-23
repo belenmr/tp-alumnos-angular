@@ -9,14 +9,16 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { StatusComponent } from './components/status/status.component';
 import { StudentComponent } from './components/student/student.component';
 
-import { LocalStorageService} from './services/local-storage.service'
+import { LocalStorageService} from './services/local-storage.service';
+import { QualificationComponent } from './components/qualification/qualification.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     StatusComponent,
-    StudentComponent
+    StudentComponent,
+    QualificationComponent
   ],
   imports: [
     BrowserModule,
