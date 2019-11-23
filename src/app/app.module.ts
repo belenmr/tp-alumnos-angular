@@ -11,7 +11,8 @@ import { StudentComponent } from './components/student/student.component';
 
 import { LocalStorageService} from './services/local-storage.service';
 import { QualificationComponent } from './components/qualification/qualification.component';
-import { AverageComponent } from './components/average/average.component'
+import { AverageComponent } from './components/average/average.component';
+import { DisapprovedComponent } from './components/disapproved/disapproved.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AverageComponent } from './components/average/average.component'
     StatusComponent,
     StudentComponent,
     QualificationComponent,
-    AverageComponent
+    AverageComponent,
+    DisapprovedComponent
   ],
   imports: [
     BrowserModule,
