@@ -10,7 +10,8 @@ import { StatusComponent } from './components/status/status.component';
 import { StudentComponent } from './components/student/student.component';
 
 import { LocalStorageService} from './services/local-storage.service';
-import { QualificationComponent } from './components/qualification/qualification.component'
+import { QualificationComponent } from './components/qualification/qualification.component';
+import { AverageComponent } from './components/average/average.component'
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { QualificationComponent } from './components/qualification/qualification
     NavbarComponent,
     StatusComponent,
     StudentComponent,
-    QualificationComponent
+    QualificationComponent,
+    AverageComponent
   ],
   imports: [
     BrowserModule,
