@@ -12,7 +12,8 @@ import { StudentComponent } from './components/student/student.component';
 import { LocalStorageService} from './services/local-storage.service';
 import { QualificationComponent } from './components/qualification/qualification.component';
 import { AverageComponent } from './components/average/average.component';
-import { DisapprovedComponent } from './components/disapproved/disapproved.component'
+import { DisapprovedComponent } from './components/disapproved/disapproved.component';
+import { UserManualComponent } from './components/user-manual/user-manual.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DisapprovedComponent } from './components/disapproved/disapproved.compo
     StudentComponent,
     QualificationComponent,
     AverageComponent,
-    DisapprovedComponent
+    DisapprovedComponent,
+    UserManualComponent
   ],
   imports: [
     BrowserModule,
