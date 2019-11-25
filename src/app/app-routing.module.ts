@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'notas', component: QualificationComponent},
   {path: 'reporte-promedios', component: AverageComponent},
   {path: 'reporte-desaprobados', component: DisapprovedComponent},
-  {path: 'manual-usuario', component: UserManualComponent}
+  {path: 'manual-usuario', component: UserManualComponent},
   {path: '**', pathMatch:'full', redirectTo:'alumnos'}
 ];
 
