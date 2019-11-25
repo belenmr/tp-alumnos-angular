@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col-md-6 mt-4">
             <ul class="list-group">
-                <li class="list-group-item list-group-item-action" (click)="openEdition(status, i)" [class.active]="status == selectedStatus" *ngFor="let status of statusList; let i = index"><span class="badge badge-primary">{{status.code}}</span>
-                    : {{status.name}}
+                <li class="list-group-item list-group-item-action" (click)="openEdition(status, i)" [class.active]="status == selectedStatus" *ngFor="let status of statusList; let i = index"><span class="badge badge-primary">{{i+1}}</span>
+                   - {{status.name}}
                 </li>
             </ul>          
         </div>
@@ -15,9 +15,6 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <div class="card-title">Estado</div>
-                    <div class="form-group">
-                        <input type="text" [(ngModel)]="selectedStatus.code" placeholder="Codigo" class="form-control" required>
-                    </div>
                     <div class="form-group">
                         <input type="text" [(ngModel)]="selectedStatus.name" placeholder="Estado" class="form-control" required>
                     </div>

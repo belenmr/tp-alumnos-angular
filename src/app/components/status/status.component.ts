@@ -14,7 +14,6 @@ export class StatusComponent implements OnInit {
 	selectedStatus: Status = new Status();
 	private storage:LocalStorageService = new LocalStorageService();
 	private studentsList: Student[];
-	private oldSelectedStatus: Status = new Status();
 	private show: boolean = false;
 	private positionToModify: number;
 
@@ -24,51 +23,34 @@ export class StatusComponent implements OnInit {
 	}	
 
 
-  	editStatus(position: number){
+  	editStatus(){
+		let oldStatus: string;
 		let oldStatusList = this.storage.getStatusList();
-		this.oldSelectedStatus = oldStatusList[this.positionToModify];	
+		oldStatus = oldStatusList[this.positionToModify].name;	
+		this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
 
-		if (!this.existStatus(this.selectedStatus)) {
-			if(this.existStatusCodeToEdit(this.selectedStatus, this.positionToModify)){
-				alert("Codigo ya en uso. Intente otro codigo");
-			} else {
-				if (this.existStatusNameToEdit(this.selectedStatus, this.positionToModify)) {
-					alert("Nombre de estado ya en uso. Intente otro nombre");
-				} else {
-					oldStatusList.forEach(element =>{
-						if (element.code == this.oldSelectedStatus.code && element.name == this.oldSelectedStatus.name) {
-							element.code = this.selectedStatus.code;
-							element.name = this.selectedStatus.name;
-						}
-					});
+		if (this.existStatusNameToEdit(this.selectedStatus, this.positionToModify)) {
+			alert("Nombre de estado ya en uso. Intente otro nombre");
+		} else {
+			this.storage.setStatusList(this.statusList);
 
-					this.storage.setStatusList(oldStatusList);
-					this.updateStudentStatus(this.oldSelectedStatus, this.selectedStatus);
-					
-				}
-			}
+			this.updateStudentStatus(oldStatus, this.selectedStatus);
+			
 		}
-	
+			
 		this.selectedStatus = new Status();
-		this.oldSelectedStatus = new Status();
 		this.show = false;
 		this.statusList = this.storage.getStatusList();
 	}
 
 	addStatus(){
-		if (!this.existStatus(this.selectedStatus)) {
-			if(this.existStatusCode(this.selectedStatus)){
-				alert("Codigo ya en uso. Intente otro codigo");
-			} else {
-				if (this.existStatusName(this.selectedStatus)) {
-					alert("Nombre de estado ya en uso. Intente otro nombre");
-				} else {
-					this.statusList.push(this.selectedStatus);
-					this.storage.setStatusList(this.statusList);
-				}
-			}
+		if (this.existStatusName(this.selectedStatus)) {
+			alert("Nombre de estado ya en uso. Intente otro nombre");
+		} else {
+			this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
+			this.statusList.push(this.selectedStatus);
+			this.storage.setStatusList(this.statusList);
 		}
-
 		this.selectedStatus = new Status();
 	}
 
@@ -80,13 +62,17 @@ export class StatusComponent implements OnInit {
 	}
 	  
 	deleteStatus(){
-		let statusToDelete = this.selectedStatus;
+		this.selectedStatus;
 		if (confirm("¿Quiere eliminarlo?")) {
 			if (this.lastStatus()) {
 				alert("Es obligatorio que exista al menos un estado disponible");
 			} else {
-				this.storage.deleteStatus(statusToDelete);
-				this.statusList = this.storage.getStatusList();				
+				if (this.statusInUse(this.selectedStatus)) {
+					alert("No es posible eliminar un estado en uso");
+				} else {
+					this.storage.deleteStatus(this.selectedStatus);
+					this.statusList = this.storage.getStatusList();	
+				}
 			}
 		}
 
@@ -107,50 +93,40 @@ export class StatusComponent implements OnInit {
 		return lastStatus;
 	}
 
-	updateStudentStatus(oldStatus: Status, newStatus: Status){
+	updateStudentStatus(oldStatus: string, newStatus: Status){
 		this.studentsList.forEach(element => {
-			if (element.status.name == oldStatus.name && element.status.code == oldStatus.code) {
-				element.status = newStatus;
+			if (element.status.toUpperCase() == oldStatus.toUpperCase() ) {
+				element.status = newStatus.name;
 			}
 		});
 
-		this.storage.setStudentsList(this.studentsList);
-		
+		this.storage.setStudentsList(this.studentsList);		
 	}
 
 
 	statusInUse(status: Status): boolean{
 		let used : boolean = false;
 
-		this.studentsList.forEach(element => {
-			if (element.status.name == status.name) {
+		for (let i = 0; i < this.studentsList.length; i++) {
+			let element: Student = this.studentsList[i];
+
+			if (element.status.toUpperCase() == status.name.toUpperCase()) {
 				used = true;
+				break;
 			}
-		});
+			
+		}
 
 		return used;
 	}
 
-
-	existStatus(status: Status):boolean{
-		let exist: boolean = false;
-		let statusList = this.storage.getStatusList();
-
-		statusList.forEach(element => {
-			if (element.name == status.name && element.code == status.code) {
-				exist = true;
-			}
-		});
-		
-		return exist;
-	}
 
 	existStatusName(status: Status):boolean{
 		let exist: boolean = false;
 		let statusList = this.storage.getStatusList();
 
 		statusList.forEach(element => {
-			if (element.name == status.name) {
+			if (element.name.toUpperCase() == status.name.toUpperCase()) {
 				exist = true;
 			}
 		});
@@ -167,7 +143,7 @@ export class StatusComponent implements OnInit {
 			let element: Status = statusList[i];
 
 			if (i != position) {
-				if (element.name == status.name) {
+				if (element.name.toUpperCase() == status.name.toUpperCase()) {
 					exist = true;
 				}
 			}
@@ -176,38 +152,6 @@ export class StatusComponent implements OnInit {
 		return exist;
 	}
 
-
-	existStatusCode(status: Status):boolean{
-		let exist: boolean = false;
-		let statusList = this.storage.getStatusList();
-
-		statusList.forEach(element => {
-			if (element.code == status.code) {
-				exist = true;
-			}
-		});
-
-		return exist;
-	}
-
-
-	existStatusCodeToEdit(status: Status, position: number):boolean{
-		let exist: boolean = false;
-		let statusList = this.storage.getStatusList();
-
-		for (let i = 0; i < statusList.length; i++){
-			let element: Status = statusList[i];
-
-			if (i != position) {
-				if (element.code == status.code) {
-					exist = true;
-				}
-			}
-	
-		}
-
-		return exist;
-	}
 
 	cancelEditStatus(){
 		this.selectedStatus = new Status();
