@@ -16,11 +16,11 @@
                 </thead>
                 <tbody style="background-color: antiquewhite;">
                     <tr *ngFor="let disapprovedStudent of disapprovedStudentsList; let i = index">
-                        <td>{{student.docket}}</td>
-                        <td>{{student.name + " " + student.surname}}</td>
-                        <td>{{student.firstExam}}</td>
-                        <td>{{student.secondExam}}</td>
-                        <td>{{student.average}}</td>
+                        <td>{{disapprovedStudent.docket}}</td>
+                        <td>{{disapprovedStudent.name + " " + disapprovedStudent.surname}}</td>
+                        <td>{{disapprovedStudent.firstExam}}</td>
+                        <td>{{disapprovedStudent.secondExam}}</td>
+                        <td>{{disapprovedStudent.average}}</td>
                     </tr>
                 </tbody>
             </table>

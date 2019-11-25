@@ -14,23 +14,23 @@ const minQualification: number = 4;
 export class DisapprovedComponent implements OnInit {
 
 	private studentsList: Student[];
-	private DisapprovedStudentsList: Student[];
+	private disapprovedStudentsList: Student[];
 	private storage: LocalStorageService= new LocalStorageService(); 
 	
 
   	constructor() {
 		this.studentsList = this.storage.getStudentsList();
-		this.DisapprovedStudentsList = this.loadDisapprovedList(this.studentsList);
+		this.disapprovedStudentsList = this.loadDisapprovedList();
 
-		if (!this.existDisapproved(this.DisapprovedStudentsList)) {
+		if (!this.existDisapproved(this.disapprovedStudentsList)) {
 			alert("No hay alumnos desaprobados");
 		}
 	}
 
-	loadDisapprovedList(list: Student[]): Student[]{
+	loadDisapprovedList(): Student[]{
 		let disapproveds: Student[] = new Array<Student>();
 
-		list.forEach(element => {
+		this.studentsList.forEach(element => {
 			if (element.average < minQualification) {
 				disapproveds.push(element);
 			}
