@@ -5,8 +5,8 @@ export class Student{
     name: string;
     surname: string;
     dni: number;
-    status: Status;
-    firstExam: number;
-    secondExam: number;
+    status: string;
+    firstExam: string;
+    secondExam: string;
     average: number;
 }

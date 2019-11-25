@@ -19,7 +19,7 @@ export class LocalStorageService {
     	name: "Alumno",
     	surname: "Ejemplo",
     	dni: 123,
-    	status: {code: "R", name: "Regular"},
+    	status: "Regular",
     	firstExam: "4",
     	secondExam: "4",
     	average: 4
