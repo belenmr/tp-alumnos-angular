@@ -34,6 +34,8 @@ export class StudentComponent implements OnInit {
 			if (this.existDocket(this.selectedStudent)) {
 				alert("El n° de legajo ya pertenece a un  alumno");
 			} else {
+				this.selectedStudent.name = this.selectedStudent.name.toUpperCase();
+				this.selectedStudent.surname = this.selectedStudent.surname.toUpperCase();
 				this.selectedStudent.firstExam = "-";
 				this.selectedStudent.secondExam = "-";
 				this.studentsList.push(this.selectedStudent);
@@ -67,8 +69,8 @@ export class StudentComponent implements OnInit {
 					if (element.dni == this.oldSelectedStudent.dni && element.docket == this.oldSelectedStudent.docket) {
 						element.dni = this.selectedStudent.dni;
 						element.docket = this.selectedStudent.docket;
-						element.name = this.selectedStudent.name;
-						element.surname = this.selectedStudent.surname;
+						element.name = this.selectedStudent.name.toUpperCase();
+						element.surname = this.selectedStudent.surname.toUpperCase();
 						element.status = this.selectedStudent.status;
 					}
 				});
