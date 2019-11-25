@@ -2,57 +2,33 @@
     <div class="row justify-content-md-center">
         <h1 class="text-center">Alumnos</h1>
     </div>
-    <div class="row"> 
-        <div class="col-sm-8">
-            
-        </div>
-        <div class="col-sm-4">
-            <div class="alert alert-success alert-dismissable" *ngIf="msg">
-                <a href="#" class="close" (click)="closeAlert()">
-                    &times;
-                </a>
-                {{msg}}
-            </div>
-        </div>
-    </div>
+
     <div class="row justify-content-md-center">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">Alumno</div>
                     <div class="form-group">
-                        <input type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control">
+                        <input type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" [(ngModel)]="selectedStudent.name" placeholder="Nombre" class="form-control">
+                        <input type="text" [(ngModel)]="selectedStudent.name" placeholder="Nombre" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" [(ngModel)]="selectedStudent.surname" placeholder="Apellido" class="form-control">
+                        <input type="text" [(ngModel)]="selectedStudent.surname" placeholder="Apellido" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <input type="number" [(ngModel)]="selectedStudent.dni" placeholder="DNI" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="primerExamen">Primer examen</label>
-                        <select name="primerExamen" [(ngModel)]="selectedStudent.firstExam">
-                            <option *ngFor="let qualification of qualificationsList; let i = index" value="qualificationsList[i]">{{qualificationsList[i]}}</option>
-                        </select>                      
-                    </div>
-                    <div class="form-group">
-                        <label for="segundoExamen">Segundo examen</label>
-                        <select name="segundoExamen" [(ngModel)]="selectedStudent.secondExam">
-                            <option *ngFor="let qualification of qualificationsList; let i = index" value="qualificationsList[i]">{{qualificationsList[i]}}</option>
-                        </select>                      
+                        <input type="number" [(ngModel)]="selectedStudent.dni" placeholder="DNI" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="estado">Estado</label>
-                        <select name="estado" [(ngModel)]="selectedStudent.status">
-                            <option *ngFor="let status of statusList; let i = index" value="{status}">{{status.name}}</option>
+                        <select name="estado" [(ngModel)]="selectedStudent.status" required>
+                            <option *ngFor="let status of statusList; let i = index" value="{{status.name}}">{{status.name}}</option>
                         </select>                      
                     </div>
-                    <button (click)="addOrEditStudent()" class="btn btn-primary">Guardar</button>
-                    <button *ngIf="existStudent(selectedStudent) == true" (click)="deleteStudent()" class="btn btn-danger">Eliminar</button>
-                    <button *ngIf="existStudent(selectedStudent) == true" (click)="cancelEditStudent()" class="btn btn-warning">Cancelar</button>
+                    <button *ngIf="!show" (click)="addStudent()" class="btn btn-primary">Guardar</button>
+                    <button *ngIf="show" (click)="editStudent()" class="btn btn-primary">Guardar</button>
+                    <button *ngIf="show" (click)="cancelEditStudent()" class="btn btn-warning">Cancelar</button>
                 </div>
             </div>
         </div>        
@@ -66,9 +42,6 @@
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>DNI</th>
-                        <th>Primer Examen</th>
-                        <th>Segundo examen</th>
-                        <th>Promedio</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -79,10 +52,7 @@
                         <td>{{student.name}}</td>
                         <td>{{student.surname}}</td>
                         <td>{{student.dni}}</td>
-                        <td>{{student.firstExam}}</td>
-                        <td>{{student.secondExam}}</td>
-                        <td>{{student.average}}</td>
-                        <td>{{student.status.name}}</td>
+                        <td>{{student.status}}</td>
                         <td>
                             <a (click)="openEditStudent(i)" class="btn btn-success">
                             Editar

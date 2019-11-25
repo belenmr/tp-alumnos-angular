@@ -4,7 +4,7 @@ import { Status } from 'src/app/models/status.model';
 import { LocalStorageService } from '../../services/local-storage.service'
 
 @Component({
-  	selector: 'app-student',
+	selector: 'app-student',
   	templateUrl: './student.component.html',
 	styleUrls: ['./student.component.css']
 })
@@ -13,51 +13,112 @@ export class StudentComponent implements OnInit {
 	private statusList: Status[];
 	private storage: LocalStorageService = new LocalStorageService();
 	private studentsList: Student[];
-	
+	private show: boolean = false;
+	private positionToModify: number;
+	private oldSelectedStudent: Student = new Student();
+	private selectedStudent: Student = new Student();
 
   	constructor() {
-		  this.statusList = this.storage.getStatusList();
 		  this.studentsList = this.storage.getStudentsList();
+		  this.statusList = this.storage.getStatusList();
 	   }
 		
   	ngOnInit() {
   	}
 
-	qualificationsList: number[] = [
-		0,
-		1, 1.5, 
-		2, 2.5,
-		3, 3.5,
-		4, 4.5,
-		5, 5.5,
-		6, 6.5,
-		7, 7.5,
-		8, 8.5,
-		9, 9.5,
-		10
-	];
-  	
-
-  	selectedStudent: Student = new Student();
-
-  	openEditStudent(i:number){
-    	this.selectedStudent = this.studentsList[i];
-  	}
-
-	existStudent(student: Student): boolean{
-		let exist: boolean = false;
-
-		if (this.existDocket(student) && this.existDNI(student)) {
-			exist = true;
+	  
+	addStudent(){
+		if(this.existDNI(this.selectedStudent)){
+			alert("El n° de DNI ya pertenece a un alumno");
+		} else {
+			if (this.existDocket(this.selectedStudent)) {
+				alert("El n° de legajo ya pertenece a un  alumno");
+			} else {
+				this.selectedStudent.firstExam = "-";
+				this.selectedStudent.secondExam = "-";
+				this.studentsList.push(this.selectedStudent);
+				this.storage.setStudentsList(this.studentsList);
+			}
 		}
 
-		return exist;
+		this.selectedStudent = new Student();
+	}
+
+
+  	openEditStudent(position:number){
+		this.selectedStudent = this.studentsList[position];
+		this.show = true;
+		this.positionToModify = position;
 	}
 	
-  	existDocket(student: Student):boolean{
-		let exist: boolean = false;
+	
+	editStudent(){
+		let oldStudentList = this.storage.getStudentsList();
+		this.oldSelectedStudent = oldStudentList[this.positionToModify];
 
-		this.studentsList.forEach(element => {
+
+		if (this.existDNIToEdit(this.selectedStudent, this.positionToModify)){
+			alert("El n° de DNI ya pertenece a un alumno");	
+		} else {
+			if (this.existDocketToEdit(this.selectedStudent, this.positionToModify)) {
+				alert("El n° de legajo ya pertenece a un alumno");
+			} else {
+				oldStudentList.forEach(element => {
+					if (element.dni == this.oldSelectedStudent.dni && element.docket == this.oldSelectedStudent.docket) {
+						element.dni = this.selectedStudent.dni;
+						element.docket = this.selectedStudent.docket;
+						element.name = this.selectedStudent.name;
+						element.surname = this.selectedStudent.surname;
+						element.status = this.selectedStudent.status;
+					}
+				});
+
+				this.storage.setStudentsList(oldStudentList);
+			}	
+		}
+		
+
+		this.selectedStudent = new Student();
+		this.oldSelectedStudent = new Student();
+		this.show = false;
+		this.studentsList = this.storage.getStudentsList();
+	}
+
+
+	deleteStudent(position: number){
+		if (confirm("¿Quiere eliminarlo?")) {
+			if (this.lastStudent()) {
+				alert("Es obligatorio que exista al menos un alumno");
+			} else {
+				this.selectedStudent = this.studentsList[position];
+				this.storage.deleteStudent(this.selectedStudent);
+				this.studentsList = this.storage.getStudentsList();
+				this.selectedStudent = new Student();				
+			}
+		}
+	}
+
+
+	lastStudent(): boolean{
+		let lastStudent: boolean = false;
+		let size: number;
+
+		this.studentsList = this.storage.getStudentsList();
+		size = this.studentsList.length;
+
+		if (size == 1) {
+			lastStudent = true;
+		}
+
+		return lastStudent;
+	}
+
+
+	existDocket(student: Student):boolean{
+		let exist: boolean = false;
+		let studentsList = this.storage.getStudentsList();
+
+		studentsList.forEach(element => {
 			if (element.docket == student.docket) {
 				exist = true;
 			}
@@ -66,10 +127,29 @@ export class StudentComponent implements OnInit {
 		return exist;
 	}
 
+
+	existDocketToEdit(student: Student, position: number):boolean{
+		let exist: boolean = false;
+		let studentsList = this.storage.getStudentsList();
+
+		for (let i = 0; i < studentsList.length; i++) {
+			let element: Student = studentsList[i];
+			
+			if (i != position) {
+				if (element.docket == student.docket) {
+					exist = true;
+				}
+			}
+		}
+
+		return exist;
+	}
+
 	existDNI(student: Student):boolean{
 		let exist: boolean = false;
+		let studentsList = this.storage.getStudentsList();
 
-		this.studentsList.forEach(element => {
+		studentsList.forEach(element => {
 			if (element.dni == student.dni) {
 				exist = true;
 			}
@@ -78,45 +158,24 @@ export class StudentComponent implements OnInit {
 		return exist;
 	}
 
-	calculateAverage(student: Student): number{
-		let average: number = 0;
-		if (student.firstExam == 0) {
-			average = student.firstExam;
-		} else {
-			if(student.secondExam == 0){
-				average = student.secondExam;
-			} else {
-				average = (student.firstExam + student.secondExam) / 2;
-			}		
-		}
 
-		return average;
-	}
+	existDNIToEdit(student: Student, position: number):boolean{
+		let exist: boolean = false;
+		let studentsList = this.storage.getStudentsList();
 
-	addOrEditStudent(){
-		if (!this.existStudent(this.selectedStudent)) {
-			if(this.existDNI(this.selectedStudent)){
-				alert("Codigo ya en uso. Intente otro codigo");
-			} else {
-				if (this.existDocket(this.selectedStudent)) {
-					alert("Nombre de estado ya en uso. Intente otro nombre");
-				} else {
-					this.selectedStudent.average = this.calculateAverage(this.selectedStudent);
-					this.studentsList.push(this.selectedStudent);
+		for (let i = 0; i < studentsList.length; i++) {
+			let element: Student = studentsList[i];
+			
+			if (i != position) {
+				if (element.dni == student.dni) {
+					exist = true;
 				}
 			}
 		}
 
-		this.selectedStudent = new Student();
+		return exist;
 	}
 
-	deleteStudent(i:number){
-		if (confirm("¿Quiere eliminarlo?")) {
-			this.selectedStudent = this.studentsList[i];
-			this.studentsList = this.studentsList.filter(x => x!= this.selectedStudent);
-			this.selectedStudent = new Student();
-		}
-	}
 
 	cancelEditStudent(){
 		this.selectedStudent = new Student();
