@@ -1,1 +1,29 @@
-<p>average works!</p>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <h1 class="text-center">Planilla de notas y promedios</h1>
+    </div>
+    <div class="row">
+        <div class="col mt-4">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Legajo</th>
+                        <th>Nombre y Apellido</th>
+                        <th>Primer Examen</th>
+                        <th>Segundo examen</th>
+                        <th>Promedio</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color: antiquewhite;">
+                    <tr *ngFor="let student of studentsList; let i = index">
+                        <td>{{student.docket}}</td>
+                        <td>{{student.name + " " + student.surname}}</td>
+                        <td>{{student.firstExam}}</td>
+                        <td>{{student.secondExam}}</td>
+                        <td>{{student.average}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
