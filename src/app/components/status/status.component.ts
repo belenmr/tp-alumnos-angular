@@ -77,6 +77,7 @@ export class StatusComponent implements OnInit {
 		}
 
 		this.selectedStatus = new Status();
+		this.show = false;
 	}
 
 	lastStatus(): boolean{
@@ -156,6 +157,7 @@ export class StatusComponent implements OnInit {
 	cancelEditStatus(){
 		this.selectedStatus = new Status();
 		this.show = false;
+		this.statusList = this.storage.getStatusList();
 	}
   
 
