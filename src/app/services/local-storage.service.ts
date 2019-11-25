@@ -12,14 +12,14 @@ const studentStorageName = "studentsStorage";
 export class LocalStorageService {
 
 	private statusList: Status[] = new Array<Status>();
-	private exampleStatus: Status = {code: "R", name: "Regular"};
+	private exampleStatus: Status = {name: "REGULAR"};
 	private studentsList: Student[] = new Array<Student>();
 	private exampleStudent: Student = {
 		docket: 12,
-    	name: "Alumno",
-    	surname: "Ejemplo",
+    	name: "ALUMNO",
+    	surname: "EJEMPLO",
     	dni: 123,
-    	status: "Regular",
+    	status: "REGULAR",
     	firstExam: "4",
     	secondExam: "4",
     	average: 4
@@ -63,7 +63,7 @@ export class LocalStorageService {
 	/* remove a status */
 	deleteStatus(status: Status){
 		this.statusList.forEach(element => {
-			if (status.code == element.code && status.name == element.name) {
+			if (status.name == element.name) {
 				this.statusList = this.statusList.filter(x => x.name!= status.name);
 				this.setStatusList(this.statusList);
 			}
