@@ -20,8 +20,8 @@ export class LocalStorageService {
     	surname: "Ejemplo",
     	dni: 123,
     	status: {code: "R", name: "Regular"},
-    	firstExam: 4,
-    	secondExam: 4,
+    	firstExam: "4",
+    	secondExam: "4",
     	average: 4
 	};
 
@@ -75,7 +75,8 @@ export class LocalStorageService {
 
 	/* get list */
 	getStudentsList(): Student[]{
-		return [...this.studentsList];
+		this.studentsList = JSON.parse(localStorage.getItem(studentStorageName));	
+		return this.studentsList;
 	}
 
 	/* add a new student */
