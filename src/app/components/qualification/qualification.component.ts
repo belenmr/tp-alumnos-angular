@@ -37,17 +37,25 @@ export class QualificationComponent implements OnInit {
 	];
 
 	searchDocket(docket: number){
-		
+		let notExist: number = 0;
 
-		this.studentsList.forEach(element => {
-			if (docket == element.docket) {
+		for (let i = 0; i < this.studentsList.length; i++) {
+			let element: Student = this.studentsList[i];
+			if (element.docket == docket) {
 				this.selectedStudent = element;
 				this.show = true;
+				notExist = 0;
+				break;
 			} else {
+				notExist++;
+			}		
+		}
+
+		if (notExist > 0) {
+			this.selectedStudent = new Student();
 				alert("Legajo inexistente");
-				this.selectedStudent = new Student();
-			}
-		});
+		}
+		
 	}
 
 	addQualifications(firstExam: string, secondExam: string){
@@ -65,6 +73,7 @@ export class QualificationComponent implements OnInit {
 
 		alert("Notas guardadas exitosamente");
 		this.selectedStudent = new Student();
+		this.show = false;
 	}
 
 	calculateAverage(firstExam: string, secondExam: string): number{
