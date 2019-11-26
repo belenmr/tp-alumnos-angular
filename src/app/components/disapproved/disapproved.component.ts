@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Student } from 'src/app/models/student.model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Router } from '@angular/router';
 
 const minQualification: number = 4;
 
@@ -15,15 +16,19 @@ export class DisapprovedComponent implements OnInit {
 
 	private studentsList: Student[];
 	private disapprovedStudentsList: Student[];
-	private storage: LocalStorageService= new LocalStorageService(); 
+	private storage: LocalStorageService= new LocalStorageService();
+	
 	
 
-  	constructor() {
+  	constructor(private route: Router ) {
+		 
 		this.studentsList = this.storage.getStudentsList();
 		this.disapprovedStudentsList = this.loadDisapprovedList();
 
 		if (!this.existDisapproved(this.disapprovedStudentsList)) {
 			alert("No hay alumnos desaprobados");
+			route.navigateByUrl("reporte-promedios");
+			
 		}
 	}
 
