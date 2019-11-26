@@ -7,7 +7,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title">Alumno</div>
+                    <div class="card-title">Ficha del alumno</div>
                     <div class="form-group">
                         <input type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control" required>
                     </div>
@@ -20,11 +20,13 @@
                     <div class="form-group">
                         <input type="number" [(ngModel)]="selectedStudent.dni" placeholder="DNI" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="estado">Estado</label>
-                        <select name="estado" [(ngModel)]="selectedStudent.status" required>
-                            <option *ngFor="let status of statusList; let i = index" value="{{status.name}}">{{status.name}}</option>
-                        </select>                      
+                    <div class="form-group row">
+                        <label for="estado" class="col-sm-3 col-form-label">Estado:</label>
+                        <div class="col-sm-9">
+                            <select name="estado" [(ngModel)]="selectedStudent.status" class="form-control" required>
+                                <option *ngFor="let status of statusList; let i = index" value="{{status.name}}">{{status.name}}</option>
+                            </select>
+                        </div>
                     </div>
                     <button *ngIf="!show" (click)="addStudent()" class="btn btn-primary">Guardar</button>
                     <button *ngIf="show" (click)="editStudent()" class="btn btn-primary">Guardar</button>
