@@ -24,19 +24,24 @@ export class StatusComponent implements OnInit {
 
 
   	editStatus(){
-		let oldStatus: string;
-		let oldStatusList = this.storage.getStatusList();
-		oldStatus = oldStatusList[this.positionToModify].name;	
-		this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
+		if (this.validateField(this.selectedStatus.name)) {
+			let oldStatus: string;
+			let oldStatusList = this.storage.getStatusList();
+			oldStatus = oldStatusList[this.positionToModify].name;	
+			this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
 
-		if (this.existStatusNameToEdit(this.selectedStatus, this.positionToModify)) {
-			alert("Nombre de estado ya en uso. Intente otro nombre");
+			if (this.existStatusNameToEdit(this.selectedStatus, this.positionToModify)) {
+				alert("Nombre de estado ya en uso. Intente otro nombre");
+			} else {
+				this.storage.setStatusList(this.statusList);
+
+				this.updateStudentStatus(oldStatus, this.selectedStatus);
+				
+			}	
 		} else {
-			this.storage.setStatusList(this.statusList);
-
-			this.updateStudentStatus(oldStatus, this.selectedStatus);
-			
+			alert("El nombre de estado no ser vacio");
 		}
+		
 			
 		this.selectedStatus = new Status();
 		this.show = false;
@@ -44,13 +49,18 @@ export class StatusComponent implements OnInit {
 	}
 
 	addStatus(){
-		if (this.existStatusName(this.selectedStatus)) {
-			alert("Nombre de estado ya en uso. Intente otro nombre");
+		if (this.validateField(this.selectedStatus.name)) {
+			if (this.existStatusName(this.selectedStatus)) {
+				alert("Nombre de estado ya en uso. Intente otro nombre");
+			} else {
+				this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
+				this.statusList.push(this.selectedStatus);
+				this.storage.setStatusList(this.statusList);
+			}
 		} else {
-			this.selectedStatus.name = this.selectedStatus.name.toUpperCase();
-			this.statusList.push(this.selectedStatus);
-			this.storage.setStatusList(this.statusList);
+			alert("El nombre de estado no ser vacio");
 		}
+		
 		this.selectedStatus = new Status();
 	}
 
@@ -160,6 +170,15 @@ export class StatusComponent implements OnInit {
 		this.statusList = this.storage.getStatusList();
 	}
   
+	validateField(fieldValue: string):boolean{
+		let validationStatus:boolean = true;
+    
+    	if( fieldValue == null || fieldValue.length == 0 || /^\s+$/.test(fieldValue) ) { 
+        	validationStatus = false;
+		}
+		
+		return validationStatus;
+	}
 
   	ngOnInit() {
 	}
