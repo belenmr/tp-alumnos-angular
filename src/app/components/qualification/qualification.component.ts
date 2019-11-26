@@ -79,12 +79,12 @@ export class QualificationComponent implements OnInit {
 	}
 
 	calculateAverage(firstExam: string, secondExam: string): number{
-		let average: number = 0;
+		let average: number;
 		if (firstExam == "-") {
-			average = parseFloat(firstExam);
+			average = parseFloat(secondExam);
 		} else {
 			if(secondExam == "-"){
-				average = parseFloat(secondExam);
+				average = parseFloat(firstExam);
 			} else {
 				average = (parseFloat(firstExam) + parseFloat(secondExam)) / 2;
 			}		
