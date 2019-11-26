@@ -181,5 +181,55 @@ export class StudentComponent implements OnInit {
 
 	cancelEditStudent(){
 		this.selectedStudent = new Student();
+		this.show = false;
+		this.studentsList = this.storage.getStudentsList();
+	}
+
+
+	validateStringField(fieldValue: string):boolean{
+		let validationStatus:boolean = true;
+    
+    	if( fieldValue == null || fieldValue.length == 0 || /^\s+$/.test(fieldValue) ) { 
+        	validationStatus = false;
+		}
+		
+		return validationStatus;
+	}
+
+
+	validateNumberField(fieldValue: number):boolean{
+		let validationStatus:boolean = true;
+
+		if (fieldValue == null || fieldValue <= 0) {
+			validationStatus = false;
+		}
+
+		return validationStatus;
+	}
+
+	validateForm():boolean{
+		let validationStatus:boolean = true;
+
+		if (this.validateNumberField(this.selectedStudent.docket)) {
+			validationStatus = false;
+		}
+
+		if (this.validateStringField(this.selectedStudent.name)) {
+			validationStatus = false;
+		}
+
+		if (this.validateStringField(this.selectedStudent.surname)) {
+			validationStatus = false;
+		}
+
+		if (this.validateNumberField(this.selectedStudent.dni)) {
+			validationStatus = false;
+		}
+
+		if (this.validateStringField(this.selectedStudent.status)) {
+			validationStatus = false;
+		}
+
+		return validationStatus;
 	}
 }
