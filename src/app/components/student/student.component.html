@@ -51,8 +51,8 @@
                 <tbody style="background-color: antiquewhite;">
                     <tr *ngFor="let student of studentsList; let i = index">
                         <td>{{student.docket}}</td>
-                        <td>{{student.name}}</td>
-                        <td>{{student.surname}}</td>
+                        <td>{{student.name.toUpperCase()}}</td>
+                        <td>{{student.surname.toUpperCase()}}</td>
                         <td>{{student.dni}}</td>
                         <td>{{student.status}}</td>
                         <td>

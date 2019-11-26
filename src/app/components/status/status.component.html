@@ -7,7 +7,7 @@
         <div class="col-md-6 mt-4">
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action" (click)="openEdition(status, i)" [class.active]="status == selectedStatus" *ngFor="let status of statusList; let i = index"><span class="badge badge-primary">{{i+1}}</span>
-                   - {{status.name}}
+                   - {{status.name.toUpperCase()}}
                 </li>
             </ul>          
         </div>
