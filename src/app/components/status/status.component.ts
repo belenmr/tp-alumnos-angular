@@ -39,7 +39,7 @@ export class StatusComponent implements OnInit {
 				
 			}	
 		} else {
-			alert("El nombre de estado no ser vacio");
+			alert("Ingrese un nombre valido");
 		}
 		
 			
@@ -58,7 +58,7 @@ export class StatusComponent implements OnInit {
 				this.storage.setStatusList(this.statusList);
 			}
 		} else {
-			alert("El nombre de estado no ser vacio");
+			alert("Ingrese un nombre valido");
 		}
 		
 		this.selectedStatus = new Status();
