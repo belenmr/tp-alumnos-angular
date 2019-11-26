@@ -28,19 +28,21 @@ export class StudentComponent implements OnInit {
 
 	  
 	addStudent(){
-		if(this.existDNI(this.selectedStudent)){
-			alert("El n° de DNI ya pertenece a un alumno");
-		} else {
-			if (this.existDocket(this.selectedStudent)) {
-				alert("El n° de legajo ya pertenece a un  alumno");
+		if (this.validateForm()) {
+			if(this.existDNI(this.selectedStudent)){
+				alert("El n° de DNI ya pertenece a un alumno");
 			} else {
-				this.selectedStudent.name = this.selectedStudent.name.toUpperCase();
-				this.selectedStudent.surname = this.selectedStudent.surname.toUpperCase();
-				this.selectedStudent.firstExam = "-";
-				this.selectedStudent.secondExam = "-";
-				this.studentsList.push(this.selectedStudent);
-				this.storage.setStudentsList(this.studentsList);
-			}
+				if (this.existDocket(this.selectedStudent)) {
+					alert("El n° de legajo ya pertenece a un  alumno");
+				} else {
+					this.selectedStudent.name = this.selectedStudent.name.toUpperCase();
+					this.selectedStudent.surname = this.selectedStudent.surname.toUpperCase();
+					this.selectedStudent.firstExam = "-";
+					this.selectedStudent.secondExam = "-";
+					this.studentsList.push(this.selectedStudent);
+					this.storage.setStudentsList(this.studentsList);
+				}
+			}		
 		}
 
 		this.selectedStudent = new Student();
@@ -58,28 +60,28 @@ export class StudentComponent implements OnInit {
 		let oldStudentList = this.storage.getStudentsList();
 		this.oldSelectedStudent = oldStudentList[this.positionToModify];
 
-
-		if (this.existDNIToEdit(this.selectedStudent, this.positionToModify)){
-			alert("El n° de DNI ya pertenece a un alumno");	
-		} else {
-			if (this.existDocketToEdit(this.selectedStudent, this.positionToModify)) {
-				alert("El n° de legajo ya pertenece a un alumno");
+		if (this.validateForm()) {
+			if (this.existDNIToEdit(this.selectedStudent, this.positionToModify)){
+				alert("El n° de DNI ya pertenece a un alumno");	
 			} else {
-				oldStudentList.forEach(element => {
-					if (element.dni == this.oldSelectedStudent.dni && element.docket == this.oldSelectedStudent.docket) {
-						element.dni = this.selectedStudent.dni;
-						element.docket = this.selectedStudent.docket;
-						element.name = this.selectedStudent.name.toUpperCase();
-						element.surname = this.selectedStudent.surname.toUpperCase();
-						element.status = this.selectedStudent.status;
-					}
-				});
-
-				this.storage.setStudentsList(oldStudentList);
-			}	
+				if (this.existDocketToEdit(this.selectedStudent, this.positionToModify)) {
+					alert("El n° de legajo ya pertenece a un alumno");
+				} else {
+					oldStudentList.forEach(element => {
+						if (element.dni == this.oldSelectedStudent.dni && element.docket == this.oldSelectedStudent.docket) {
+							element.dni = this.selectedStudent.dni;
+							element.docket = this.selectedStudent.docket;
+							element.name = this.selectedStudent.name.toUpperCase();
+							element.surname = this.selectedStudent.surname.toUpperCase();
+							element.status = this.selectedStudent.status;
+						}
+					});
+	
+					this.storage.setStudentsList(oldStudentList);
+				}	
+			}
 		}
 		
-
 		this.selectedStudent = new Student();
 		this.oldSelectedStudent = new Student();
 		this.show = false;
@@ -210,24 +212,29 @@ export class StudentComponent implements OnInit {
 	validateForm():boolean{
 		let validationStatus:boolean = true;
 
-		if (this.validateNumberField(this.selectedStudent.docket)) {
+		if (!this.validateNumberField(this.selectedStudent.docket)) {
 			validationStatus = false;
+			alert("El n° de legajo debe ser mayor a 0");
 		}
 
-		if (this.validateStringField(this.selectedStudent.name)) {
+		if (!this.validateStringField(this.selectedStudent.name)) {
 			validationStatus = false;
+			alert("Ingrese un nombre valido");
 		}
 
-		if (this.validateStringField(this.selectedStudent.surname)) {
+		if (!this.validateStringField(this.selectedStudent.surname)) {
 			validationStatus = false;
+			alert("Ingrese un apellido valido");
 		}
 
-		if (this.validateNumberField(this.selectedStudent.dni)) {
+		if (!this.validateNumberField(this.selectedStudent.dni)) {
 			validationStatus = false;
+			alert("El n° de DNI debe ser mayor a 0");
 		}
 
-		if (this.validateStringField(this.selectedStudent.status)) {
+		if (!this.validateStringField(this.selectedStudent.status)) {
 			validationStatus = false;
+			alert("Ingrese un estado valido");
 		}
 
 		return validationStatus;
