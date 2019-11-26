@@ -59,21 +59,23 @@ export class QualificationComponent implements OnInit {
 	}
 
 	addQualifications(firstExam: string, secondExam: string){
-		let average = this.calculateAverage(firstExam, secondExam);
+		if (this.validateQualification(firstExam, secondExam)) {
+			let average = this.calculateAverage(firstExam, secondExam);
 
-		this.studentsList.forEach(element => {
-			if (element.docket == this.selectedStudent.docket) {
-				element.firstExam = firstExam;
-				element.secondExam = secondExam;
-				element.average = average;
-			}
-		});
+			this.studentsList.forEach(element => {
+				if (element.docket == this.selectedStudent.docket) {
+					element.firstExam = firstExam;
+					element.secondExam = secondExam;
+					element.average = average;
+				}
+			});
 
-		this.storage.setStudentsList(this.studentsList);
-
-		alert("Notas guardadas exitosamente");
-		this.selectedStudent = new Student();
-		this.show = false;
+			this.storage.setStudentsList(this.studentsList);
+			alert("Notas guardadas exitosamente");
+			this.show = false;
+			this.selectedStudent = new Student();
+		}
+			
 	}
 
 	calculateAverage(firstExam: string, secondExam: string): number{
@@ -94,5 +96,16 @@ export class QualificationComponent implements OnInit {
 	cancel(){
 		this.selectedStudent = new Student();
 		this.show = false;
+	}
+
+	validateQualification(firstExam: string, secondExam: string):boolean{
+		let validationStatus = true;
+
+		if (firstExam == "-" && secondExam == "-") {
+			validationStatus = false;
+			alert("Debe ingresar al menos una nota");
+		}
+
+		return validationStatus;
 	}
 }
