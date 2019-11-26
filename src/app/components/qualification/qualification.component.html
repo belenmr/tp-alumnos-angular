@@ -19,11 +19,15 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title"></div>
-                    <div class="form-group">
-                        <input type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control" required>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="legajo">Legajo: </label>
+                        <div class="col-sm-9">
+                            <input *ngIf="!show" type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control" name="legajo" required>
+                            <input *ngIf="show" type="number" [(ngModel)]="selectedStudent.docket" placeholder="Legajo" class="form-control" name="legajo" readonly>
+                        </div>                
                     </div>
                     <div class="form-group">
-                        <button (click)="searchDocket(selectedStudent.docket)" class="btn btn-primary">Buscar</button>
+                        <button *ngIf="!show" (click)="searchDocket(selectedStudent.docket)" class="btn btn-primary">Buscar</button>
                     </div>
                         
                     <div class="form-group">
@@ -33,16 +37,16 @@
                         <input *ngIf="show" type="text" [(ngModel)]="selectedStudent.surname" placeholder="Apellido" readonly class="form-control">
                     </div>
                     <div class="form-group">
-                        <label *ngIf="show" for="primerExamen">Primer examen</label>
-                        <select *ngIf="show" name="primerExamen" [(ngModel)]="selectedStudent.firstExam" required>
+                        <label *ngIf="show" for="primerExamen">Primer examen</label>      
+                        <select *ngIf="show" name="primerExamen" [(ngModel)]="selectedStudent.firstExam" class="form-control" required>
                             <option *ngFor="let qualification of qualificationsList; let i = index" value="{{qualificationsList[i]}}">{{qualificationsList[i]}}</option>
-                        </select>                      
+                        </select>                         
                     </div>
                     <div class="form-group">
                         <label *ngIf="show" for="segundoExamen">Segundo examen</label>
-                        <select *ngIf="show" name="segundoExamen" [(ngModel)]="selectedStudent.secondExam" required>
+                        <select *ngIf="show" name="segundoExamen" [(ngModel)]="selectedStudent.secondExam" class="form-control" required>
                             <option *ngFor="let qualification of qualificationsList; let i = index" value="{{qualificationsList[i]}}">{{qualificationsList[i]}}</option>
-                        </select>                      
+                        </select>
                     </div>
                     <button *ngIf="show" (click)="addQualifications(selectedStudent.firstExam, selectedStudent.secondExam)" class="btn btn-primary">Guardar</button>
                     <button *ngIf="show" (click)="cancel()" class="btn btn-warning">Cancelar</button>
