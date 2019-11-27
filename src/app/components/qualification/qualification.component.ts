@@ -96,6 +96,7 @@ export class QualificationComponent implements OnInit {
 	cancel(){
 		this.selectedStudent = new Student();
 		this.show = false;
+		this.studentsList = this.storage.getStudentsList();
 	}
 
 	validateQualification(firstExam: string, secondExam: string):boolean{
